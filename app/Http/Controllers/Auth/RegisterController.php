@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Notifications\UpdateNotification;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -64,10 +65,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $create = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $website_title = settings('website_title') ?? settings('website_name');
+        $notif = [
+            'title' =>  'Account created successfully',
+            'body'  =>  "Welcome to $website_title, your account registration has been been completed successfully.\nWe're glad to have you onboard."
+        ];
+        $create->notify(new UpdateNotification($notif));
     }
 }

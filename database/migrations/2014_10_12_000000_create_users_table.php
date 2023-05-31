@@ -27,14 +27,14 @@ class CreateUsersTable extends Migration
             $table->string('phone')->nullable();
             $table->string('country')->nullable();
             $table->string('address')->nullable();
-            $table->json('withdrawal_data')->default([
+            $table->json('withdrawal_data')->default(json_encode([
                 'bank_name'         =>  null,
                 'account_name'      =>  null,
                 'account_number'    =>  null,
                 'bitcoin_address'   =>  null,
                 'litecoin_address'  =>  null,
                 'ethereum_address'  =>  null,
-            ]);
+            ]));
             $table->rememberToken();
             $table->timestamps();
         });
