@@ -16,7 +16,7 @@ if (!function_exists('format_price')) {
      * @return $settings objects
      *
      */
-    function format_price($amount=0)
+    function format_price(float $amount=0)
     {
         return settings('currency'). number_format($amount, 2);
     }

@@ -8,11 +8,12 @@
 
 @section('content')
     <div class="container">
+        @include('notifications')
         <div class="row justify-content-center">
             <div class="col-md-12">
                 @forelse ($plans as $item)
                     <div class="col-md-4">
-                        <form class="form" action="/subscribe/1" method="post">
+                        <form class="form" action="{{ route('subscribe.post', $item->id) }}" method="post">
                             @csrf
                             <div class="card">
                                 <div class="card-header my-2">

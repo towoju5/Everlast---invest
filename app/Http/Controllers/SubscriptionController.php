@@ -16,4 +16,15 @@ class SubscriptionController extends Controller
         $plans = Plan::all();
         return view('users.subscription', compact('plans'));
     }
+
+    /**
+     * Process subscription plan request
+     */
+    public function process(Request $request, $planId)
+    {
+        $request->validate([
+            'amount'    =>  'numeric|required'
+        ]);
+        $plan = Plan::findorfail($planId);
+    }
 }

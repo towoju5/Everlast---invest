@@ -8,6 +8,7 @@
 
 @section('content')
     <div class="container">
+        @include('notifications')
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">

@@ -1,5 +1,5 @@
 <div class="container-xl">
-    @if (count($errors) > 0)
+    @if (isset($errors) && count($errors) > 0)
     <div class="alert alert-success alert-dismissible" role="alert">
         <div class="d-flex">
             <div>

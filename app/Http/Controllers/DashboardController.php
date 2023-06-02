@@ -19,10 +19,10 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $withdrawal         = Withdrawal::whereUserId($user->id)->count();
-        $total_withdrawal   = Withdrawal::whereUserId($user->id)->sum('amount');
-        $deposits           = Deposit::whereUserId($user->id)->count();
-        $total_deposit      = Deposit::whereUserId($user->id)->sum('amount');
+        $withdrawal         = Withdrawal::whereUserId($user->id)->whereStatus(true)->count();
+        $total_withdrawal   = Withdrawal::whereUserId($user->id)->whereStatus(true)->sum('amount');
+        $deposits           = Deposit::whereUserId($user->id)->whereStatus(true)->count();
+        $total_deposit      = Deposit::whereUserId($user->id)->whereStatus(true)->sum('amount');
         $trades             = Trade::whereUserId($user->id)->orderBy('created_at', 'desc')->limit(10)->get();
         return view('home', compact(['withdrawal', 'total_withdrawal', 'deposits', 'total_deposit', 'trades']));
     }

@@ -42,9 +42,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('status/{id}/{action}',  [DepositController::class,     'update_status'])->name('deposit.status');
     });
 
+    Route::group(['prefix' => 'subscribe'], function() {
+        Route::post('plan/{id}',        [SubscriptionController::class, 'process'])->name('subscribe.post');
+        // Route::post('process',          [SubscriptionController::class, 'update_status'])->name('trade.process');
+    });
+
     Route::group(['prefix' => 'trade'], function() {
-        Route::post('/', [TradingController::class, 'index'])->name('trade');
-        Route::post('process', [TradingController::class, 'update_status'])->name('trade.process');
+        Route::post('/',        [TradingController::class, 'index'])->name('trade');
+        Route::post('process',  [TradingController::class, 'update_status'])->name('trade.process');
     });
 
     Route::group(['prefix' => 'withdrawal'], function() {
