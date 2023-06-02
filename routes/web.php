@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('dashboard',         [DashboardController::class,    'index'])->name('dashboard');
     Route::get('activity-log',      [HomeController::class,         'events'])->name('events');
     Route::get('subscription',      [SubscriptionController::class, 'index'])->name('subscription');
+    Route::get('referral',          [SubscriptionController::class, 'referral'])->name('referral');
 
 
     Route::group(['prefix' => 'deposit'], function() {

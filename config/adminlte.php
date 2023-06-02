@@ -271,6 +271,12 @@ return [
             'icon'  => 'fas fa-fw fa-credit-card',
         ],
         
+        [
+            'text'  => 'Referral',
+            'route' => 'referral',
+            'icon'  => 'fas fa-fw fa-users',
+        ],
+        
 
         // ['header' => "Others"],
         [

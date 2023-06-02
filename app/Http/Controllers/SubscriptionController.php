@@ -13,7 +13,7 @@ class SubscriptionController extends Controller
      */
     public  function index()
     {
-        $plans = [];  //Plan::all();
+        $plans = Plan::all();
         return view('users.subscription', compact('plans'));
     }
 }
