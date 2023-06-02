@@ -15,11 +15,14 @@ class CreateSubscriptionsTable extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->string('plan_id');
-            $table->string('user_id');
+            $table->unsignedBigInteger('plan_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('amount');
             $table->string('invest_range');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreign('plan_id')->references('id')->on('plans');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

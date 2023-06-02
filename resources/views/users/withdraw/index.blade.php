@@ -135,7 +135,7 @@
                                                         </tr>
                                                     @empty
                                                         <tr class="odd">
-                                                            <td colspan="5">
+                                                            <td colspan="6">
                                                                 <h3 class="py-3 d-flex justify-content-center">No data
                                                                     available in table</h3>
                                                             </td>

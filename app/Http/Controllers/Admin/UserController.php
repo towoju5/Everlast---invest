@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Invest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -34,7 +35,8 @@ class UserController extends Controller
         $request->validate([
             'user'  =>  'required',
             'action'=>  'required',
-            'amount'=>  'required|numeric'
+            'amount'=>  'required|numeric',
+            'wallet'=>  'required',
         ]);
     }
 
