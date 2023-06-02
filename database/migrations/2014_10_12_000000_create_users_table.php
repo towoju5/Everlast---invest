@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->decimal('balance');
+            $table->decimal('profit');
+            $table->decimal('bonus');
             $table->boolean('account_status')->default(true);
             $table->boolean('kyc_verified')->default(false);
             $table->text('kyc_file_path');

@@ -77,5 +77,6 @@ class RegisterController extends Controller
             'body'  =>  "Welcome to $website_title, your account registration has been been completed successfully.\nWe're glad to have you onboard."
         ];
         $create->notify(new UpdateNotification($notif));
+        return $create;
     }
 }

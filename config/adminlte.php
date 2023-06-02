@@ -226,15 +226,15 @@ return [
 
     'menu' => [
         // Navbar items:
-        [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
-            'topnav_right' => true,
-        ],
-        [
-            'type'         => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
+        // [
+        //     'type'         => 'navbar-search',
+        //     'text'         => 'search',
+        //     'topnav_right' => true,
+        // ],
+        // [
+        //     'type'         => 'fullscreen-widget',
+        //     'topnav_right' => true,
+        // ],
 
         // Sidebar items:
         [
@@ -246,27 +246,37 @@ return [
         [
             'text'        => 'Dashboard',
             'route'       => 'dashboard',
-            'icon'        => 'fas fa-monitor',
+            'icon'        => 'fas fa-home',
         ],
         
-        ['header' => "Todo's"],
+        // ['header' => "Todo's"],
         [
-            'text' => 'Events',
-            'route'  => 'events',
-            'icon' => 'fas fa-fw fa-calendar',
+            'text'  => 'Activity Log',
+            'route' => 'events',
+            'icon'  => 'fas fa-fw fa-tasks',
         ],
         [
-            'text' => 'All Events',
-            'route'  => 'events.list',
-            'icon' => 'fas fa-fw fa-list',
+            'text'  => 'Deposit',
+            'route' => 'deposit',
+            'icon'  => 'fas fa-fw fa-exchange-alt',
+        ],
+        [
+            'text'  => 'Withdrawal',
+            'route' => 'withdrawal',
+            'icon'  => 'fas fa-fw fa-exchange-alt',
+        ],
+        [
+            'text'  => 'Subscription',
+            'route' => 'subscription',
+            'icon'  => 'fas fa-fw fa-credit-card',
         ],
         
 
-        ['header' => "Others"],
+        // ['header' => "Others"],
         [
             'text'  => 'Logout',
             'route' => 'logout',
-            'icon'  => 'fas fa-sign-out',
+            'icon'  => 'fas fa-fw fa-sign-out-alt',
         ],
     ],
 

@@ -5,8 +5,9 @@
 #-----------------------------------------------------------------------
 
 use App\Models\Settings;
+use Illuminate\Support\Carbon;
 
-if (!function_exists('settings')) {
+if (!function_exists('format_price')) {
     /**
      * Return a complete objects of the website settings.
      *
@@ -15,9 +16,9 @@ if (!function_exists('settings')) {
      * @return $settings objects
      *
      */
-    function settings()
+    function format_price($amount=0)
     {
-        //
+        return settings('currency'). number_format($amount, 2);
     }
 }
 
@@ -32,7 +33,8 @@ if (!function_exists('settings')) {
      */
     function settings($key)
     {
-        $value = Settings::where('key', $key)->pluck('value');
+        $value = Settings::where('key', $key)->first();
+        return $value->value;
     }
 }
 
@@ -100,6 +102,105 @@ if (!function_exists('get_greetings')) {
         }
 
         return $greet . " \t";
+    }
+}
+
+if (!function_exists('per_page')) {
+    /**
+     */
+    function per_page($count=null)
+    {
+        if(null != $count){
+            return $count;
+        }
+        return settings('list_per_page') ?? 10;
+    }
+}
+
+if (!function_exists('to_array')) {
+    /**
+     * Convert data to array
+     */
+    function to_array($result)
+    {
+        if (is_array($result)) {
+            return ($result);
+        } elseif (is_object($result)) {
+            return json_decode(json_encode($result), true);
+        } else {
+            return json_decode($result, true);
+        }
+
+    }
+}
+
+if (!function_exists('showAmount')) {
+
+    function showAmount($amount, $decimal = 2, $separate = true, $exceptZeros = false)
+    {
+        // var_dump($amount); exit;
+        $separator = '';
+        if ($separate) {
+            $separator = ',';
+        }
+        $printAmount = number_format((int) $amount, $decimal, '.', $separator);
+        if ($exceptZeros) {
+            $exp = explode('.', $printAmount);
+            if ($exp[1] * 1 == 0) {
+                $printAmount = $exp[0];
+            } else {
+                $printAmount = rtrim($printAmount, '0');
+            }
+        }
+        return $printAmount;
+    }
+}
+
+if (!function_exists('get_status')) {
+    function get_status($status){
+        switch ($status) {
+            case 'cancel':
+                return 3;
+                break;
+            
+            case 'cancelled':
+                return 3;
+                break;
+            
+            case 'failed':
+                return 3;
+                break;
+            
+            case 'success':
+                return 1;
+                break;
+            
+            case 'approve':
+                return 1;
+                break;
+            
+            case 'successful':
+                return 1;
+                break;
+            
+            case 'pending':
+                return 0;
+                break;
+            
+            default:
+                return 0;
+                break;
+        }
+    }
+}
+
+
+if (!function_exists('showDateTime')) {
+    function showDateTime($date, $format = 'Y-m-d h:i A')
+    {
+        $lang = session()->get('lang');
+        Carbon::setlocale($lang);
+        return Carbon::parse($date)->translatedFormat($format);
     }
 }
 

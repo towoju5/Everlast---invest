@@ -6,15 +6,14 @@
     <h3>{{ get_greetings() . auth()->user()->name }}</h3>
 @stop
 
+
+@php($user = request()->user())
 @section('content')
     <div class="container">
         <section class="content">
+            @include('notifications')
             <div class="container-fluid">
                 <!-- Small boxes (Stat box) -->
-
-
-
-
 
                 <div class="row">
                     <!--============================ View for Non-Admin ============================-->
@@ -27,7 +26,7 @@
                             <div class="info-box-content">
                                 <span class="info-box-text">Balance</span>
                                 <span class="info-box-number lead">
-                                    $0.00 </span>
+                                    {{ format_price($user->balance) }} </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -41,7 +40,7 @@
                             <div class="info-box-content">
                                 <span class="info-box-text">Profit Return</span>
                                 <span class="info-box-number lead">
-                                    $0.00 </span>
+                                    {{ format_price($user->profit) }} </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -56,7 +55,7 @@
                             <div class="info-box-content">
                                 <span class="info-box-text">Bonus</span>
                                 <span class="info-box-number lead">
-                                    $0.00 </span>
+                                    {{ format_price($user->bonus) }} </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -70,7 +69,7 @@
                             <div class="info-box-content">
                                 <span class="info-box-text">Total Deposit</span>
                                 <span class="info-box-number lead">
-                                    $0.00 </span>
+                                    {{ format_price($total_deposit) }} </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -84,7 +83,7 @@
                             <div class="info-box-content">
                                 <span class="info-box-text">Total Withdrawal</span>
                                 <span class="info-box-number lead">
-                                    $0.00 </span>
+                                    {{ format_price($total_withdrawal) }} </span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -101,7 +100,7 @@
                             <div class="info-box-content">
                                 <span class="info-box-text">Deposit</span>
                                 <span class="info-box-number lead">
-                                    0
+                                    {{ $deposits }}
                                 </span>
                             </div>
                             <!-- /.info-box-content -->
@@ -122,7 +121,7 @@
                             <div class="info-box-content">
                                 <span class="info-box-text">Withdrawal</span>
                                 <span class="info-box-number lead">
-                                    0
+                                    {{ $withdrawal }}
                                 </span>
                             </div>
                             <!-- /.info-box-content -->
@@ -260,10 +259,8 @@
                                 Live Trading
                             </div>
                             <div class="card-body">
-                                <form class="form" method="POST"
-                                    action="https://app.24legitstockoptionstading.com/trade">
-                                    <input type="hidden" name="_token"
-                                        value="6X7YC1WS0SBZTiSQMVKD7jhir0NDfawF7wiluyEj">
+                                <form class="form" method="POST" action="{{ route('trade') }}">
+                                    @csrf
                                     <div class="form-row">
                                         <div class="form-group col-md-12">
                                             <select id="inputState" name="type" class="form-control ">
@@ -273,8 +270,7 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="inputAddress">Currency Pair</label>
-                                            <input type="text" class="form-control " id="currency_pair"
-                                                name="currency_pair" placeholder="Enter currency-pair example: BTC/ETH">
+                                            <input type="text" class="form-control " id="currency_pair" name="currency_pair" placeholder="Enter currency-pair example: BTC/ETH">
                                         </div>
                                         <!--<div class="form-group col-md-6">-->
                                         <!--  <label for="inputAddress">Amount</label>-->
@@ -283,23 +279,19 @@
                                         <!--</div>-->
                                         <div class="form-group col-md-6">
                                             <label for="inputAddress">Lot Size</label>
-                                            <input type="text" class="form-control " id="lot_size" name="lot_size"
-                                                placeholder="Enter lot size">
+                                            <input type="text" class="form-control " id="lot_size" name="lot_size" placeholder="Enter lot size">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="inputAddress">Entry price</label>
-                                            <input type="text" class="form-control " id="entry_price"
-                                                name="entry_price" placeholder="Enter entry price">
+                                            <input type="text" class="form-control " id="entry_price"  name="entry_price" placeholder="Enter entry price">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="inputAddress">Stop Loss</label>
-                                            <input type="text" class="form-control " id="stop_loss" name="stop_loss"
-                                                placeholder="Enter stop loss">
+                                            <input type="text" class="form-control " id="stop_loss" name="stop_loss"  placeholder="Enter stop loss">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="inputAddress">Take Profit</label>
-                                            <input type="text" class="form-control " id="take_profit"
-                                                name="take_profit" placeholder="Enter take profit">
+                                            <input type="text" class="form-control " id="take_profit" name="take_profit" placeholder="Enter take profit">
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label for="inputAddress">Select Action</label>
@@ -335,6 +327,38 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @forelse ($trades as $item)
+                                            <tr>
+                                                <td>{{ ucfirst($item->type) }} / {{ strtoupper($item->action) }} </td>
+                                                <td>{{ $item->currency_pair }} </td>
+                                                <td>{{ $item->lot_size }} </td>
+                                                <td>{{ $item->entry_price }} </td>
+                                                <td>{{ $item->stop_loss }} </td>
+                                                <td>{{ $item->take_profit }} </td>
+                                                <td>
+                                                    @if ($item->status == 1)
+                                                        <span class="badge badge-primary">Successful</span>
+                                                    @elseif($item->status == 0)
+                                                        <span class="badge badge-secondary">Pending</span>
+                                                    @elseif($item->status == 3)
+                                                        <span class="badge badge-danger">Failed</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                      @if ($item->status == 0)
+                                                      <a href="{{ route('trade.process', [$item->id, 'cancel']) }}">
+                                                            <button class="btn btn-sm btn-danger">Cancel</button>
+                                                      </a>
+                                                      @else
+                                                      <a href="#!">
+                                                            <button class="btn btn-sm btn-danger" disabled>Cancel</button>
+                                                      </a>
+                                                      @endif
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            
+                                        @endforelse
                                         <tr>
                                             <td colspan="6" class="text-center h6">No Recent Trade Activity</td>
                                         </tr>

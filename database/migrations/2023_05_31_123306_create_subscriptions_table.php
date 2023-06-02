@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateActivityLogsTable extends Migration
+class CreateSubscriptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateActivityLogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('activity_logs', function (Blueprint $table) {
+        Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
+            $table->string('plan_id');
+            $table->string('user_id');
+            $table->string('amount');
+            $table->string('invest_range');
             $table->timestamps();
-            $table->timestamp('deleted_at')->nullable();
         });
     }
 
@@ -28,6 +30,6 @@ class CreateActivityLogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activity_logs');
+        Schema::dropIfExists('subscriptions');
     }
 }
