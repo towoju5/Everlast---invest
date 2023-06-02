@@ -38,6 +38,19 @@ class UserController extends Controller
             'amount'=>  'required|numeric',
             'wallet'=>  'required',
         ]);
+
+        $user = User::findorfail($request->user);
+        $wallet = $request->wallet;
+        if($request->action == 'add'){
+            $user->$wallet += $request->amount;
+        } else {
+            $user->$wallet -= $request->amount;
+        }
+        if($user->save()){
+            return back()->with('success', 'Action completed successfully');
+        }
+
+        return back()->with('error', 'Error encountered');
     }
 
     /**
