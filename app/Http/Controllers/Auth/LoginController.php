@@ -55,5 +55,9 @@ class LoginController extends Controller
             'title' =>  'successful Login',
             'body'  =>  "You successfully logged into your account from IP: ".$request->ip()
         ]));
+
+        if($user->can('admin')){
+            return redirect(route('admin.dashboard'));
+        }
     }
 }

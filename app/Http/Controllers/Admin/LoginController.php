@@ -5,20 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
     public function login()
     {
-        // Admin::create([
-        //     'email' =>  'admin@gmail.com',
-        //     'password'=>    bcrypt('123456'),
-        //     'name'  =>  'super admin'
-        // ]);
-
-        $login_url = route('admin.login');
-        // $errors = validator();
-        return view('admin.auth.login', compact('login_url'));
+        return view('admin.auth.login');
     }
 
     public function process_login(Request  $request)
@@ -28,9 +21,13 @@ class LoginController extends Controller
             'password'  =>  'required'
         ]);
 
-        $login = auth('admin')->attempt($credentials, true);
+        $do_login = Auth::guard('admin')->attempt($credentials);
 
-        if($login) {
+        if($do_login) {
+            Auth::guard('admin')->loginUsingId(auth('admin')->user(), true);
+            // if(auth('admin')->check()){
+            //     var_dump(auth('admin')->user()); exit;
+            // }
             return redirect(route('admin.dashboard'));
         }
 

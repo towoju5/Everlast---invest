@@ -19,6 +19,13 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
+        // $user = $request->user();
+        // $user->givePermissionTo('standard');
+        // $user->revokePermissionTo('admin');
+        // return $user->permissions;
+        // return $user->getAllPermissions();
+
+        // return $user->can('read articles');
         $withdrawal         = Withdrawal::whereUserId($user->id)->whereStatus(true)->count();
         $total_withdrawal   = Withdrawal::whereUserId($user->id)->whereStatus(true)->sum('amount');
         $deposits           = Deposit::whereUserId($user->id)->whereStatus(true)->count();

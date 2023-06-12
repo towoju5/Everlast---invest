@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DepositMethodController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\HomeController;
@@ -28,7 +29,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['web', 'auth', 'kyc']], function () {
     Route::get('home',              [HomeController::class,         'index'])->name('home');
     Route::get('dashboard',         [DashboardController::class,    'index'])->name('dashboard');
     Route::get('activity-log',      [HomeController::class,         'events'])->name('events');

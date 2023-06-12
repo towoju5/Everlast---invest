@@ -9,8 +9,8 @@
 @section('content')
     <div class="container">
         @include('notifications')
-        <div class="row justify-content-center">
-            <div class="col-md-12">
+        <div class="col-md-12">
+            <div class="row justify-content-center">
                 @forelse ($plans as $item)
                     <div class="col-md-4">
                         <form class="form" action="{{ route('subscribe.post', $item->id) }}" method="post">
@@ -29,13 +29,18 @@
                                                     class="ml-2">{{ format_price($item->minimum_amount) }}</strong></p>
                                         </div>
                                         <div class="col-md-12 mt-2 text-center">
-                                            <p><strong class=""> <strong class="mr-2">DURATION</strong>{{ $item->duration }} HOURS</strong></p>
+                                            <p><strong class=""> <strong
+                                                        class="mr-2">DURATION</strong>{{ $item->duration }} HOURS</strong>
+                                            </p>
                                         </div>
                                         <div class="col-md-12 mt-2 text-center">
-                                            <p><strong class=""> <strong class="mr-2">MAXIMUM DEPOSIT</strong>{{ format_price($item->maximum_amount) }}</strong></p>
+                                            <p><strong class=""> <strong class="mr-2">MAXIMUM
+                                                        DEPOSIT</strong>{{ format_price($item->maximum_amount) }}</strong>
+                                            </p>
                                         </div>
                                         <div class="col-md-12 mt-2 ">
-                                            <input type="text" name="amount" value="" class="form-control" min="{{$item->minimum_amount}}" max="{{$item->maximum_amount}}"
+                                            <input type="text" name="amount" value="" class="form-control"
+                                                min="{{ $item->minimum_amount }}" max="{{ $item->maximum_amount }}"
                                                 placeholder="Enter Amount">
                                         </div>
                                         <div class="col-md-12 mt-2 ">

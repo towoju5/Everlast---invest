@@ -28,11 +28,12 @@ class DepositController extends Controller
             "user_id"       =>  $user->id,
             "currency"      =>  $request->payment_method,
             "amount"    	=>  $request->amount,
+            'trx'           =>  uniqid(),
             "proof_of_pay"  =>  save_image('deposit', $request->payment_verify),
         ]);
 
         $notif = [
-            'title' =>  "withdrawal request",
+            'title' =>  "Deposit request",
             "body"  =>  "You deposit request of $request->amount via $request->payment_method  has been inititated successfully.\nPlease  make payment and upload your proof of payment to complete deposit process"
         ];
 
@@ -47,6 +48,19 @@ class DepositController extends Controller
     public function update_status($id, $action)
     {
         if(Deposit::whereId($id)->whereUserId(request()->user()->id)->update(['status' => get_status($action)])){
+            return back()->with('success', 'Action completed successfully');
+        }
+        return back()->with('error', 'Error encourted');
+    }
+
+    public function update_proof(Request $request, $id)
+    {
+        $request->validate([
+            'image' =>  'required|mimes:jpeg,png,jpg,gif'
+        ]);
+        $deposit = Deposit::whereId($id)->whereUserId(request()->user()->id)->first();
+        $deposit->proof_of_pay = save_image('deposit', $request->file('image'));
+        if($deposit->save()){
             return back()->with('success', 'Action completed successfully');
         }
         return back()->with('error', 'Error encourted');

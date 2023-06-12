@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invest;
 use App\Models\Plan;
 use Illuminate\Http\Request;
 
@@ -22,9 +23,12 @@ class SubscriptionController extends Controller
      */
     public function process(Request $request, $planId)
     {
-        $request->validate([
-            'amount'    =>  'numeric|required'
-        ]);
         $plan = Plan::findorfail($planId);
+        $request->validate([
+            'amount'    =>  "numeric|required|min:$plan->minimum_amount|max:$plan->maximum_amount"
+        ]);
+
+        $invest = new Invest();
+        $invest->
     }
 }

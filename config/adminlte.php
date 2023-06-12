@@ -229,12 +229,66 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
+
+        // admin  dashboard starts here
         
+        [
+            'text'        => 'Dashboard',
+            'route'       => 'admin.dashboard',
+            'icon'        => 'fas fa-home',
+            'can'         => 'admin'
+        ],
+        
+        [
+            'text'        => 'Withdrawals',
+            'route'       => 'admin.withdrawal',
+            'icon'        => 'fas fa-upload',
+            'can'         => 'admin'
+        ],
+        
+        [
+            'text'        => 'Deposit',
+            'route'       => 'admin.deposit',
+            'icon'        => 'fas fa-download',
+            'can'         => 'admin'
+        ],
+        
+        [
+            'text'        => 'Users',
+            'route'       => 'admin.users',
+            'icon'        => 'fas fa-users',
+            'can'         => 'admin'
+        ],
+        
+        [
+            'text'        => 'Plans',
+            'route'       => 'admin.plans',
+            'icon'        => 'fas fa-list',
+            'can'         => 'admin',
+            'active'      => ['admin/plan*']
+        ],
+        
+        [
+            'text'        => 'KYC',
+            'route'       => 'kyc.index',
+            'icon'        => 'fas fa-user-cog',
+            'can'         => 'admin'
+        ],
+        
+        [
+            'text'        => 'Deposit Method',
+            'route'       => 'admin.deposit.method',
+            'icon'        => 'fab fa-paypal',
+            'can'         => 'admin'
+        ],
+
+        // user dashboard starts here
         
         [
             'text'        => 'Dashboard',
             'route'       => 'dashboard',
             'icon'        => 'fas fa-home',
+            'can'         => 'standard'
         ],
         
         // ['header' => "Todo's"],
@@ -242,27 +296,32 @@ return [
             'text'  => 'Activity Log',
             'route' => 'events',
             'icon'  => 'fas fa-fw fa-tasks',
+            'can'         => 'standard'
         ],
         [
             'text'  => 'Deposit',
             'route' => 'deposit',
             'icon'  => 'fas fa-fw fa-exchange-alt',
+            'can'         => 'standard'
         ],
         [
             'text'  => 'Withdrawal',
             'route' => 'withdrawal',
             'icon'  => 'fas fa-fw fa-exchange-alt',
+            'can'         => 'standard'
         ],
         [
             'text'  => 'Subscription',
             'route' => 'subscription',
             'icon'  => 'fas fa-fw fa-credit-card',
+            'can'         => 'standard'
         ],
         
         [
             'text'  => 'Referral',
             'route' => 'referral',
             'icon'  => 'fas fa-fw fa-users',
+            'can'         => 'standard'
         ],
         
 

@@ -17,6 +17,7 @@ class CreateDepositsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('currency');
+            $table->string('trx', 50);
             $table->decimal('amount');
             $table->string('proof_of_pay');
             $table->boolean('status')->default(false)->comment('0 => pending and 1 => successful and 3 => failed');

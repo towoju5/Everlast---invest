@@ -14,6 +14,8 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
         "neto737/bitgosdk-php": "^2.2",
+        "spatie/laravel-permission": "^5.10",
+        "towoju5/kyc-form": "dev-master",
         "yajra/laravel-datatables-oracle": "^9.19"
     },
     "require-dev": {

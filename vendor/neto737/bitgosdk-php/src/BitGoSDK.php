@@ -10,7 +10,7 @@
  * @package BitGoSDK PHP
  * @author  Neto Melo <neto737@live.com>
  * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License v3
- * @version 2.1
+ * @version 2.2
  */
 
 namespace neto737\BitGoSDK;
@@ -20,14 +20,13 @@ use neto737\BitGoSDK\Enum\AddressType;
 
 class BitGoSDK {
 
-    const BITGO_PRODUCTION_API_ENDPOINT = 'https://www.bitgo.com/api/v2/';
-    const BITGO_TESTNET_API_ENDPOINT = 'https://test.bitgo.com/api/v2/';
+    const BITGO_PRODUCTION_API_ENDPOINT = 'https://app.bitgo.com/api/v2/';
+    const BITGO_TESTNET_API_ENDPOINT = 'https://app.bitgo-test.com/api/v2/';
 
     private $APIEndpoint = null;
     private $AuthAPIEndpoint = null;
     private $url = null;
     private $params = [];
-    private $allowedCoins = ['btc', 'bch', 'bsv', 'btg', 'eth', 'dash', 'ltc', 'xrp', 'zec', 'rmg', 'erc', 'omg', 'zrx', 'fun', 'gnt', 'rep', 'bat', 'knc', 'cvc', 'eos', 'qrl', 'nmr', 'pay', 'brd', 'tbtc', 'tbch', 'tbsv', 'teth', 'tdash', 'tltc', 'txrp', 'tzec', 'trmg', 'terc'];
     public $walletId = null;
     private $requestIP = null;
 
@@ -45,10 +44,6 @@ class BitGoSDK {
         $this->testNet = $testNet;
         $this->APIEndpoint = (!$this->testNet) ? self::BITGO_PRODUCTION_API_ENDPOINT . $this->coin : self::BITGO_TESTNET_API_ENDPOINT . $this->coin;
         $this->AuthAPIEndpoint = (!$this->testNet) ? self::BITGO_PRODUCTION_API_ENDPOINT : self::BITGO_TESTNET_API_ENDPOINT;
-
-        if (!in_array($this->coin, $this->allowedCoins)) {
-            throw new \Exception('You are trying to use an invalid coin');
-        }
     }
 
     /**
@@ -249,8 +244,8 @@ class BitGoSDK {
     public function getWalletAddress(string $addressOrId, string $dt = null, string $memoId = null) {
         $this->url = $this->APIEndpoint . '/wallet/' . $this->walletId . '/address/' . $addressOrId;
         $this->params = [
-            'dt' => $this->coin === CurrencyCode::RIPPLE ? $label : null,
-            'memoId' => $this->coin === CurrencyCode::STELLAR ? $label : null
+            'dt' => $this->coin === CurrencyCode::RIPPLE ? $dt : null,
+            'memoId' => $this->coin === CurrencyCode::STELLAR ? $memoId : null
         ];
         return $this->__execute('GET');
     }
@@ -265,8 +260,8 @@ class BitGoSDK {
     public function updateWalletAddress(string $addressOrId, string $dt = null, string $memoId = null, string $label = null) {
         $this->url = $this->APIEndpoint . '/wallet/' . $this->walletId . '/address/' . $addressOrId;
         $this->params = [
-            'dt' => $this->coin === CurrencyCode::RIPPLE ? $label : null,
-            'memoId' => $this->coin === CurrencyCode::STELLAR ? $label : null,
+            'dt' => $this->coin === CurrencyCode::RIPPLE ? $dt : null,
+            'memoId' => $this->coin === CurrencyCode::STELLAR ? $memoId : null,
             'label' => $label
         ];
         return $this->__execute('PUT');

@@ -14,4 +14,8 @@ class Withdrawal extends Model
     protected $casts = [
         'withdrawal_info'   =>  'object'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

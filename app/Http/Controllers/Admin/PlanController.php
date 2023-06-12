@@ -34,10 +34,13 @@ class PlanController extends Controller
         try {
             $validate = $request->validate([
                 'plan_name'         =>  'required',
-                'plan_min_amount'   =>  'required',
-                'plan_max_amount'   =>  'required',
-                'plan_time'         =>  'required'
+                'minimum_amount'    =>  'required|numeric|min:0',
+                'maximum_amount'    =>  'required|numeric|min:0',
+                'duration'          =>  'required',
+                'image'             =>  'required'
             ]);
+
+            $validate['image']  =   save_image('plans', $request->file('image'));
     
             $create = Plan::create($validate);
     
@@ -51,6 +54,16 @@ class PlanController extends Controller
 
 
     /**
+     * Show a subscription plan
+     * @param plan_id
+     */
+    public function show($plan_id)
+    {
+        $plan = Plan::findorfail($plan_id)->makeHidden(['created_at', 'updated_at', 'deleted_at', 'id']);
+        return view('admin.plans.show', compact('plan'));
+    }
+
+    /**
      * Edit  a subscription plan
      * @param plan_id
      */
@@ -58,6 +71,34 @@ class PlanController extends Controller
     {
         $plan = Plan::findorfail($plan_id);
         return view('admin.plans.edit', compact('plan'));
+    }
+
+    /**
+     * Update record after editing
+     */
+    public function update(Request $request, $planId)
+    {
+        try {
+            $validate = $request->validate([
+                'plan_name'         =>  'required',
+                'minimum_amount'    =>  'required|numeric|min:0',
+                'maximum_amount'    =>  'required|numeric|min:0',
+                'duration'          =>  'required|numeric',
+            ]);
+    
+            if($request->hasFile('image')){
+                $validate['image']  =   save_image('plans', $request->file('image'));
+            }
+    
+            $create = Plan::whereId($planId)->update($validate);
+    
+            if($create)
+                return back()->with('success', 'Data  updated successfully');
+               
+            return back()->with('error', 'Unable to update Data');
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+        }
     }
 
     /**
