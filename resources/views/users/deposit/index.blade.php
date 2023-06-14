@@ -23,6 +23,11 @@
 @stop
 
 @section('content')
+    <style>
+        .badge {
+            font-size: 1rem;
+        }
+    </style>
     <!-- Main content -->
     <section class="content">
         @include('notifications')
@@ -36,108 +41,37 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="accordion payment-method" id="accordionExample">
-                                    <div class="card">
-                                        <div class="card-header py-0" id="headingOne">
-                                            <h5 class="mb-0">
-                                                <button class="btn btn-link" type="button" data-toggle="collapse"
-                                                    data-target="#btc-address" aria-expanded="true"
-                                                    aria-controls="btc-address">
-                                                    BTC Address
-                                                </button>
-                                            </h5>
-                                        </div>
-                                        <div id="btc-address" class="collapse" aria-labelledby="headingOne"
-                                            data-parent="#accordionExample">
-                                            <div class="card-body text-center">
-                                                <p>1B7ByjuZwuYsPhaVLySHEDJNuCy7wFUEDZ</p>
+                                    @forelse($methods as $k => $item)
+                                        <div class="card">
+                                            <div class="card-header py-0" id="headingOne">
+                                                <h5 class="mb-0">
+                                                    <button class="btn btn-link" type="button" data-toggle="collapse"
+                                                        data-target="#address_{{ $k }}" aria-expanded="true"
+                                                        aria-controls="address_{{ $k }}">
+                                                        {{ $item->method_name }}
+                                                    </button>
+                                                </h5>
+                                            </div>
+                                            <div id="address_{{ $k }}" class="collapse"
+                                                aria-labelledby="headingOne" data-parent="#accordionExample">
+                                                <div class="card-body text-center">
+                                                    <p class="h2">Network: {{ $item->network }}</p>
+                                                    <p>
+                                                        Wallet address:
+                                                        <span class="badge badge-light">{{ $item->method_value }}</span>
+                                                        <i class="fa fa-copy btn" data-clipboard-action="copy" data-clipboard-target="#copy_address_{{ $k }}" style="cursor: pointer" title="copy address"></i>
+                                                    </p>
+                                                    <input type="hidden" id="copy_address_{{ $k }}"  value="{{ $item->method_value }}">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            {!! get_qr_code($item->method_value) !!}
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header py-0" id="headingOne">
-                                            <h5 class="mb-0">
-                                                <button class="btn btn-link" type="button" data-toggle="collapse"
-                                                    data-target="#usdt-trc20-address" aria-expanded="true"
-                                                    aria-controls="usdt-trc20-address">
-                                                    USDT TRC20 Address
-                                                </button>
-                                            </h5>
-                                        </div>
-                                        <div id="usdt-trc20-address" class="collapse" aria-labelledby="headingOne"
-                                            data-parent="#accordionExample">
-                                            <div class="card-body text-center">
-                                                <p>TFEqjFVfudgRL83SD9vFfMKsfCL9QcA8u1</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header py-0" id="headingOne">
-                                            <h5 class="mb-0">
-                                                <button class="btn btn-link" type="button" data-toggle="collapse"
-                                                    data-target="#ethereum-eth-address" aria-expanded="true"
-                                                    aria-controls="ethereum-eth-address">
-                                                    Ethereum ETH Address
-                                                </button>
-                                            </h5>
-                                        </div>
-                                        <div id="ethereum-eth-address" class="collapse" aria-labelledby="headingOne"
-                                            data-parent="#accordionExample">
-                                            <div class="card-body text-center">
-                                                <p>0x570688287E909961B0cd7e77639a183f55A2F3b7</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header py-0" id="headingOne">
-                                            <h5 class="mb-0">
-                                                <button class="btn btn-link" type="button" data-toggle="collapse"
-                                                    data-target="#ltc-litecoin" aria-expanded="true"
-                                                    aria-controls="ltc-litecoin">
-                                                    LTC Litecoin
-                                                </button>
-                                            </h5>
-                                        </div>
-                                        <div id="ltc-litecoin" class="collapse" aria-labelledby="headingOne"
-                                            data-parent="#accordionExample">
-                                            <div class="card-body text-center">
-                                                <p>M8LgzHdmb8uoWUHiCX3xewJxbr3vjoTnFH</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header py-0" id="headingOne">
-                                            <h5 class="mb-0">
-                                                <button class="btn btn-link" type="button" data-toggle="collapse"
-                                                    data-target="#bch-bitcoin-cash" aria-expanded="true"
-                                                    aria-controls="bch-bitcoin-cash">
-                                                    BCH Bitcoin Cash
-                                                </button>
-                                            </h5>
-                                        </div>
-                                        <div id="bch-bitcoin-cash" class="collapse" aria-labelledby="headingOne"
-                                            data-parent="#accordionExample">
-                                            <div class="card-body text-center">
-                                                <p>qzs0mvgqh73ulhh52zk33ng6urjjh0tlkggflhku8m</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header py-0" id="headingOne">
-                                            <h5 class="mb-0">
-                                                <button class="btn btn-link" type="button" data-toggle="collapse"
-                                                    data-target="#usdt-erc20-network" aria-expanded="true"
-                                                    aria-controls="usdt-erc20-network">
-                                                    USDT ERC20 Network
-                                                </button>
-                                            </h5>
-                                        </div>
-                                        <div id="usdt-erc20-network" class="collapse" aria-labelledby="headingOne"
-                                            data-parent="#accordionExample">
-                                            <div class="card-body text-center">
-                                                <p>0x33742feF48368C81fFfCbbE06d1CaC3C4a25CeE5</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @empty
+                                    @endforelse
                                 </div>
                             </div>
                         </div>
@@ -155,7 +89,8 @@
                                 <h5>Submit Notification for Deposit</h5>
                             </div>
                             <div class="col-md-12 mt-2">
-                                <form class="form" action="{{ route('deposit.process') }}" method="post" enctype="multipart/form-data">
+                                <form class="form" action="{{ route('deposit.process') }}" method="post"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-row">
                                         <div class="form-group col-md-12">
@@ -175,20 +110,21 @@
                                         <div class="form-group col-md-12 my-2">
                                             <label for="payment-method">Select Payment Method</label>
                                             <select class="form-control" name="payment_method">
+                                                @forelse($methods as $k => $item)
+                                                <option value="{{ $item->id  }}">{{ $item->method_name }} ({{ $item->method_value }})</option>
+                                                @empty
                                                 <option value="">-- Select Payment Method --</option>
-                                                <option value="BTC Address">BTC Address</option>
-                                                <option value="USDT TRC20 Address">USDT TRC20 Address</option>
-                                                <option value="Ethereum ETH Address">Ethereum ETH Address
-                                                </option>
-                                                <option value="LTC Litecoin">LTC Litecoin</option>
-                                                <option value="BCH Bitcoin Cash">BCH Bitcoin Cash</option>
-                                                <option value="USDT ERC20 Network">USDT ERC20 Network</option>
+                                                @endforelse
                                             </select>
                                         </div>
                                         <div class="form-group col-md-12 my-2">
                                             <label for="amount">Amount in Dollar ($)</label>
                                             <input type="text" name="amount" class="form-control" value=""
                                                 placeholder="Enter Amount">
+                                        </div>
+                                        <div class="form-group col-md-12 my-2">
+                                            <label for="amount">Deposit Trx</label>
+                                            <input type="text" name="trx" class="form-control" placeholder="Ex: askfj843s">
                                         </div>
                                         <div class="form-group col-md-12 my-2">
                                             <label for="payment_verify">Upload Payment Reciept</label>
@@ -225,7 +161,8 @@
                                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <table id="dataTable" class="table table-hover table-striped table-borderless dataTable no-footer">
+                                            <table id="dataTable"
+                                                class="table table-hover table-striped table-borderless dataTable no-footer">
                                                 <thead>
                                                     <tr>
                                                         <th>Trx ID</th>
@@ -238,7 +175,7 @@
                                                 <tbody>
                                                     @forelse ($deposits as $k => $item)
                                                         <tr>
-                                                            <td>{{ $k+1 }}</td>
+                                                            <td>{{ $k + 1 }}</td>
                                                             <td>{{ format_price($item->amount) }}</td>
                                                             <td>
                                                                 @if ($item->status == 1)
@@ -253,23 +190,27 @@
                                                                 {{ showDateTime($item->created_at) }}
                                                             </td>
                                                             <td>
-                                                                  @if ($item->status == 0)
-                                                                  <a href="{{ route('withdrawal.status', [$item->id, 'cancel']) }}">
-                                                                        <button class="btn btn-sm btn-danger">Cancel</button>
-                                                                  </a>
-                                                                  @else
-                                                                  <a href="#!">
-                                                                        <button class="btn btn-sm btn-danger" disabled>Cancel</button>
-                                                                  </a>
-                                                                  @endif
+                                                                @if ($item->status == 0)
+                                                                    <a
+                                                                        href="{{ route('withdrawal.status', [$item->id, 'cancel']) }}">
+                                                                        <button
+                                                                            class="btn btn-sm btn-danger">Cancel</button>
+                                                                    </a>
+                                                                @else
+                                                                    <a href="#!">
+                                                                        <button class="btn btn-sm btn-danger"
+                                                                            disabled>Cancel</button>
+                                                                    </a>
+                                                                @endif
                                                             </td>
                                                         </tr>
                                                     @empty
-                                                    <tr class="odd">
-                                                        <td colspan="5">
-                                                            <h3 class="py-1 d-flex justify-content-center">No data available in table</h3>
-                                                        </td>
-                                                    </tr>
+                                                        <tr class="odd">
+                                                            <td colspan="5">
+                                                                <h3 class="py-1 d-flex justify-content-center">No data
+                                                                    available in table</h3>
+                                                            </td>
+                                                        </tr>
                                                     @endforelse
                                                 </tbody>
                                             </table>
@@ -296,5 +237,19 @@
 @stop
 
 @section('js')
-    <script></script>
+    <script src="{{ asset('dist/clipboard.min.js') }}"></script>
+    <script>
+        var clipboard = new ClipboardJS('.btn');
+  
+        clipboard.on('success', function (e) {
+          console.info('Action:', e.action);
+          console.info('Text:', e.text);
+          console.info('Trigger:', e.trigger);
+          alert('Copied: ' + e.text);
+        });
+  
+        clipboard.on('error', function (e) {
+          console.log(e);
+        });
+      </script>
 @stop

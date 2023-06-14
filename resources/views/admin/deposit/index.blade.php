@@ -41,7 +41,7 @@
                                         <tr onclick="window.location.href='{{route('admin.deposit.show', $item->id)}}'" style="cursor: pointer">
                                             <td>{{ $k + 1 }}</td>
                                             <td>{{ $item->user->name }}</td>
-                                            <td>{{ $item->currency }}</td>
+                                            <td>{{ $item->method->method_name }} ({{ $item->method->method_value }})</td>
                                             <td>
                                                 @if(empty($item->proof_of_pay))
                                                 <i class="fas fa-times-circle"></i>   Evidence not yet provided

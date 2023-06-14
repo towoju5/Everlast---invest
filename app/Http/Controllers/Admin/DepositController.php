@@ -16,7 +16,7 @@ class DepositController extends Controller
         if($r->has('status') && !empty($r->status)){
             $status = get_status($r->status);
         }
-        $deposits = Deposit::whereStatus($status)->orderBy('created_at', 'desc')->paginate(per_page());
+        $deposits = Deposit::whereStatus($status)->with('method')->orderBy('created_at', 'desc')->paginate(per_page());
         return view('admin.deposit.index', compact('deposits'));
     }
 

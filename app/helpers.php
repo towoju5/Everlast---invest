@@ -71,11 +71,11 @@ if (!function_exists('get_success_response')) {
 }
 
 if (!function_exists('save_image')) {
-    function save_image($path, $image): string
+    function save_image($path, $image, $fileName = null): string
     {
         $image_path = '/storage/' . $path;
         $path = public_path($image_path);
-        $filename = sha1(time()) . '.jpg';
+        $filename = $fileName ?? sha1(time()) . '.jpg';
         $image->move($path, $filename);
         $img_url = asset($image_path . '/' . $filename);
         return $img_url;
@@ -300,6 +300,20 @@ if (!function_exists('is_decimal')) {
             return true;
         }
         return false;
+    }
+}
+
+if (!function_exists('form_open_multipart')) {
+    function form_open_multipart($url = null, $param=null)
+    {
+        return "<form enctype='multipart/form-data' action='$url'>.$param";
+    }
+}
+
+if (!function_exists('get_qr_code')) {
+    function get_qr_code($data)
+    {
+        return "<img src='https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=$data&choe=UTF-8' alt='qr_code'>";
     }
 }
 

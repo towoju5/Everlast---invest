@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Deposit;
+use App\Models\DepositMethod;
 use App\Notifications\UpdateNotification;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,8 @@ class DepositController extends Controller
     public function index()
     {
         $deposits = Deposit::whereUserId(auth()->id())->orderBy('created_at', 'desc')->paginate(per_page());
-        return view('users.deposit.index', compact('deposits'));
+        $methods = DepositMethod::all();
+        return view('users.deposit.index', compact('deposits','methods'));
     }
 
     public function process_deposit(Request $request)
@@ -56,10 +58,12 @@ class DepositController extends Controller
     public function update_proof(Request $request, $id)
     {
         $request->validate([
-            'image' =>  'required|mimes:jpeg,png,jpg,gif'
+            'image' =>  'required|mimes:jpeg,png,jpg,gif',
+            'trx'   =>  'required'
         ]);
         $deposit = Deposit::whereId($id)->whereUserId(request()->user()->id)->first();
         $deposit->proof_of_pay = save_image('deposit', $request->file('image'));
+        $deposit->trx   =   $request->trx;
         if($deposit->save()){
             return back()->with('success', 'Action completed successfully');
         }

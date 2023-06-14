@@ -43,9 +43,12 @@ Route::group(['middleware' => ['web','auth']], function () {
     });
 
     Route::group(['prefix' => 'deposit-method'], function() {
-        Route::get('/',                     [DepositMethodController::class,     'index'])->name('deposit.method');
-        Route::get('status/{id}/{action}',  [DepositMethodController::class,     'update_status'])->name('withdrawal.status');
-        Route::post('process',              [DepositMethodController::class,     'process_withdrawal'])->name('withdrawal.process');
+        Route::get('/',                 [DepositMethodController::class,     'index'])->name('deposit.method');
+        Route::get('show/{id}',         [DepositMethodController::class,     'show'])->name('deposit.method.show');
+        Route::get('edit/{id}',         [DepositMethodController::class,     'show'])->name('deposit.method.edit');
+        Route::post('edit/{id}/update', [DepositMethodController::class,     'update'])->name('deposit.method.update');
+        Route::post('store',            [DepositMethodController::class,     'store'])->name('deposit.method.store');
+        Route::get('delete/{id}',       [DepositMethodController::class,     'destroy'])->name('deposit.method.delete');
     });
 
     Route::group(['prefix' => 'subscribe'], function() {

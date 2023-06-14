@@ -15,7 +15,7 @@ class DepositMethodController extends Controller
      */
     public function index()
     {
-        return $methods = DepositMethod::all();
+        $methods = DepositMethod::all();
         return view('admin.deposit.method.index', compact('methods'));
     }
 
@@ -38,7 +38,7 @@ class DepositMethodController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'method_name' => 'requierd',
+            'method_name' => 'required',
             'method_value' => 'required',
         ]);
 
@@ -56,7 +56,7 @@ class DepositMethodController extends Controller
         }
         if ($request->post('network')) {
             $request->validate([
-                'min_amount' => 'required',
+                'network' => 'required',
             ]);
             $validate['network'] = $request->post('network');
         }
@@ -76,7 +76,11 @@ class DepositMethodController extends Controller
      */
     public function show($id)
     {
-        //
+        $method = DepositMethod::whereId($id)->first();
+        if($method){
+            $method = $method->makeHidden(['id', 'created_at', 'updated_at', 'deleted_at']);
+        }
+        return view('admin.deposit.method.show', compact('method'));
     }
 
     /**
@@ -142,6 +146,13 @@ class DepositMethodController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            if (DepositMethod::destroy([$id])) {
+                return back()->with('success', 'Data deleted successfully');
+            }
+            return back()->with('error', 'Unable to delete record');
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+        }
     }
 }

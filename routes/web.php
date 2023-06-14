@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SignalController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TradingController;
 use App\Http\Controllers\WithdrawController;
@@ -45,7 +46,12 @@ Route::group(['middleware' => ['web', 'auth', 'kyc']], function () {
 
     Route::group(['prefix' => 'subscribe'], function() {
         Route::post('plan/{id}',        [SubscriptionController::class, 'process'])->name('subscribe.post');
-        // Route::post('process',          [SubscriptionController::class, 'update_status'])->name('trade.process');
+        Route::post('process',          [SubscriptionController::class, 'update_status'])->name('process.signal');
+    });
+
+    Route::group(['prefix' => 'signal'], function() {
+        Route::post('process/{id}', [SignalController::class, 'process'])->name('subscribe.post');
+        Route::post('purchase',     [SignalController::class, 'update_status'])->name('process.signal');
     });
 
     Route::group(['prefix' => 'trade'], function() {
